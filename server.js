@@ -1,13 +1,25 @@
 // Require Express.js
 const express = require('express')
 const app = express()
+
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+
+const logging = (req, res, next) => {
+    console.log(req.body.number)
+    next()
+}
+
 // Require Minimist
 const args = require('minimist')(process.argv.slice(2))
 args["port"]
 const port = args.port || process.env.PORT || 5000;
+
+
 // Start an app server
-const server = app.listen(HTTP_PORT, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%', HTTP_PORT))
+const server = app.listen(port, () => {
+    console.log('App listening on port %PORT%'.replace('%PORT%', port))
 });
 
 app.get('/app/', (req, res) => {
